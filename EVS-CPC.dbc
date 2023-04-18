@@ -1,0 +1,64 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: BMS VCU EVS_CPC
+VAL_TABLE_ OnOff 1 "Inhibit" 0 "Allow" ;
+VAL_TABLE_ LockState 5 "LockError" 4 "UnLocking" 3 "Locked" 2 "Locking" 1 "UnLocked" 0 "Boot" ;
+VAL_TABLE_ PlugState 3 "PlugError" 2 "PlugButton" 1 "PlugIn" 0 "Disconnected" ;
+VAL_TABLE_ ChargePortStatus 8 "Sleep" 7 "PortError" 6 "Unlock" 5 "Stopping" 4 "ChargingDC" 3 "ChargingAC" 2 "Ready" 1 "PluggedIn" 0 "Disconnected" ;
+
+
+BO_ 856 VCU_ChargePermission: 8 VCU
+ SG_ VCU_StopCharge : 1|1@1+ (1,0) [0|1] ""  EVS_CPC
+ SG_ VCU_OkCharge : 0|1@1+ (1,0) [0|1] ""  EVS_CPC
+
+BO_ 855 ChargePortStatus: 8 EVS_CPC
+ SG_ ChargePort_LockState : 40|8@1+ (1,0) [0|0] ""  BMS,VCU
+ SG_ ChargePort_PlugState : 32|8@1+ (1,0) [0|0] ""  BMS,VCU
+ SG_ ChargePort_Status : 8|8@1+ (1,0) [0|0] ""  BMS,VCU
+ SG_ ChargePort_ACcur_Limit : 16|16@1+ (1,0) [0|255] "Amps"  BMS,VCU
+ SG_ Isolation_Measurement_Stopreq : 0|8@1+ (1,0) [0|255] "-"  BMS,VCU
+
+BO_TX_BU_ 856 : BMS,VCU;
+BO_TX_BU_ 855 : BMS,EVS_CPC;
+
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "BusType" "CAN";
+VAL_ 855 ChargePort_LockState 5 "LockError" 4 "UnLocking" 3 "Locked" 2 "Locking" 1 "UnLocked" 0 "Boot" ;
+VAL_ 855 ChargePort_PlugState 3 "PlugError" 2 "PlugButton" 1 "PlugIn" 0 "Disconnected" ;
+VAL_ 855 ChargePort_Status 8 "Sleep" 7 "PortError" 6 "Unlock" 5 "Stopping" 4 "ChargingDC" 3 "ChargingAC" 2 "Ready" 1 "PluggedIn" 0 "Disconnected" ;
+VAL_ 855 Isolation_Measurement_Stopreq 1 "Inhibit" 0 "Allow" ;
+
